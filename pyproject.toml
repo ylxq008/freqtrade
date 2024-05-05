@@ -127,7 +127,7 @@ target-version = "py38"
 # Exclude UP036 as it's causing the "exit if < 3.9" to fail.
 extend-select = [
   "C90",    # mccabe
-  # "B",    # bugbear
+  "B",      # bugbear
   # "N",    # pep8-naming
   "F",      # pyflakes
   "E",      # pycodestyle
@@ -151,6 +151,8 @@ extend-ignore = [
   "E272",  # Multiple spaces before keyword
   "E221",  # Multiple spaces before operator
   "B007",  # Loop control variable not used
+  "B904",  # BugBear - except raise from
+  "B028",  # BugBear warning -> stacklevel
   "S603",  # `subprocess` call: check for execution of untrusted input
   "S607",  # Starting a process with a partial executable path
   "S608",  # Possible SQL injection vector through string-based query construction
