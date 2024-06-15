@@ -11,6 +11,7 @@ from typing import Dict, List, Optional, Tuple, Union
 from pandas import DataFrame
 
 from freqtrade.constants import CUSTOM_TAG_MAX_LENGTH, Config, IntOrInf, ListPairsWithTimeframes
+from freqtrade.data.converter import reduce_dataframe_footprint
 from freqtrade.data.dataprovider import DataProvider
 from freqtrade.enums import (
     CandleType,
@@ -1607,7 +1608,10 @@ class IStrategy(ABC, HyperStrategyMixin):
                 self, dataframe, metadata, inf_data, populate_fn
             )
 
-        return self.populate_indicators(dataframe, metadata)
+        dataframe = self.populate_indicators(dataframe, metadata)
+        if self.config.get('runmode') not in [RunMode.DRY_RUN, RunMode.LIVE]:
+            dataframe = reduce_dataframe_footprint(dataframe)
+        return dataframe
 
     def advise_entry(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         """
